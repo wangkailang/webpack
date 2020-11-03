@@ -30,6 +30,8 @@ const exec = n => {
 	});
 };
 
+const supportsEsm = +process.versions.modules >= 83;
+
 describe("BuildDependencies", () => {
 	beforeEach(done => {
 		rimraf(cacheDirectory, done);
@@ -53,6 +55,10 @@ describe("BuildDependencies", () => {
 			path.resolve(inputDirectory, "config-dependency.js"),
 			"module.exports = 1;"
 		);
+		fs.writeFileSync(
+			path.resolve(inputDirectory, "esm-dependency.js"),
+			"module.exports = 0;"
+		);
 		await exec("0");
 		fs.writeFileSync(
 			path.resolve(inputDirectory, "loader-dependency.js"),
@@ -69,7 +75,13 @@ describe("BuildDependencies", () => {
 		await exec("3");
 		const now3 = Date.now();
 		await exec("4");
-		const results = Array.from({ length: 5 }).map((_, i) =>
+		fs.writeFileSync(
+			path.resolve(inputDirectory, "esm-dependency.js"),
+			"module.exports = Date.now();"
+		);
+		const now4 = Date.now();
+		await exec("5");
+		const results = Array.from({ length: 6 }).map((_, i) =>
 			require(`./js/buildDeps/${i}/main.js`)
 		);
 		for (const r of results) {
@@ -79,22 +91,34 @@ describe("BuildDependencies", () => {
 		}
 		expect(results[0].loader).toBe(1);
 		expect(results[0].config).toBe(1);
+		expect(results[0].esmConfig).toBe(0);
 		expect(results[0].uncached).toBe(1);
 		// 0 -> 1 should be invalidated
 		expect(results[1].loader).toBeGreaterThan(now1);
 		expect(results[1].config).toBe(1);
+		expect(results[1].esmConfig).toBe(0);
 		expect(results[1].uncached).toBe(1);
 		// 1 -> 2 should stay cached
 		expect(results[2].loader).toBe(results[1].loader);
 		expect(results[2].config).toBe(1);
+		expect(results[2].esmConfig).toBe(0);
 		expect(results[2].uncached).toBe(1);
 		// 2 -> 3 should be invalidated
 		expect(results[3].loader).toBeGreaterThan(now2);
 		expect(results[3].config).toBeGreaterThan(now2);
+		expect(results[3].esmConfig).toBe(0);
 		expect(results[3].uncached).toBe(results[3].config);
 		// 3 -> 4 should stay cached, but uncacheable module still rebuilds
 		expect(results[4].loader).toBe(results[3].loader);
 		expect(results[4].config).toBe(results[3].config);
+		expect(results[4].esmConfig).toBe(0);
 		expect(results[4].uncached).toBeGreaterThan(now3);
+		if (supportsEsm) {
+			// 4 -> 5 should be invalidated
+			expect(results[4].loader).toBeGreaterThan(now4);
+			expect(results[4].config).toBeGreaterThan(now4);
+			expect(results[5].esmConfig).toBeGreaterThan(now4);
+			expect(results[4].uncached).toBeGreaterThan(now4);
+		}
 	}, 100000);
 });
