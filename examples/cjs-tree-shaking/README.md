@@ -57,11 +57,6 @@ exports.multiply = function multiply() {
 /*!**********************!*\
   !*** ./increment.js ***!
   \**********************/
-/*! default exports */
-/*! export decrement [provided] [unused] [renamed to Mj] */
-/*! export increment [provided] [used in main] [renamed to nP] */
-/*! export incrementBy2 [provided] [unused] [renamed to pN] */
-/*! runtime requirements: __webpack_require__, __webpack_exports__ */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 var __webpack_unused_export__;
@@ -82,10 +77,6 @@ __webpack_unused_export__ = function decrement(val) {
 /*!*****************!*\
   !*** ./math.js ***!
   \*****************/
-/*! default exports */
-/*! export add [provided] [used in main] [renamed to I] */
-/*! export multiply [provided] [unused] [renamed to J] */
-/*! runtime requirements: __webpack_exports__ */
 /***/ ((__unused_webpack_module, exports) => {
 
 var __webpack_unused_export__;
@@ -153,8 +144,6 @@ __webpack_unused_export__ = function multiply() {
 /*!********************!*\
   !*** ./example.js ***!
   \********************/
-/*! unknown exports (runtime-defined) */
-/*! runtime requirements: __webpack_require__ */
 const inc = __webpack_require__(/*! ./increment */ 1)/* .increment */ .nP;
 var a = 1;
 inc(a); // 2
@@ -184,43 +173,31 @@ inc(a); // 2
 ## Unoptimized
 
 ```
-asset output.js 2.76 KiB [emitted] (name: main)
-chunk (runtime: main) output.js (main) 634 bytes [entry] [rendered]
-  > ./example.js main
-  dependent modules 564 bytes [dependent] 2 modules
-  ./example.js 70 bytes [built] [code generated]
-    [no exports used]
-    entry ./example.js main
-webpack 5.0.0 compiled successfully
+asset [1m[32moutput.js[39m[22m 2.21 KiB [1m[32m[emitted][39m[22m (name: main)
+[1m./example.js[39m[22m 70 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./increment.js[39m[22m 251 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./math.js[39m[22m 313 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.10.2 compiled [1m[32msuccessfully[39m[22m
 
-asset without.js 2.91 KiB [emitted] (name: main)
-chunk without.js (main) 634 bytes [entry] [rendered]
-  > ./example.js main
-  dependent modules 564 bytes [dependent] 2 modules
-  ./example.js 70 bytes [built] [code generated]
-    [used exports unknown]
-    entry ./example.js main
-webpack 5.0.0 compiled successfully
+asset [1m[32mwithout.js[39m[22m 2.12 KiB [1m[32m[emitted][39m[22m (name: main)
+[1m./example.js[39m[22m 70 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./increment.js[39m[22m 251 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./math.js[39m[22m 313 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.10.2 compiled [1m[32msuccessfully[39m[22m
 ```
 
 ## Production mode
 
 ```
-asset output.js 351 bytes [emitted] [minimized] (name: main) 1 related asset
-chunk (runtime: main) output.js (main) 634 bytes [entry] [rendered]
-  > ./example.js main
-  dependent modules 564 bytes [dependent] 2 modules
-  ./example.js 70 bytes [built] [code generated]
-    [no exports used]
-    entry ./example.js main
-webpack 5.0.0 compiled successfully
+asset [1m[32moutput.js[39m[22m 351 bytes [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: main) 1 related asset
+[1m./example.js[39m[22m 70 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./increment.js[39m[22m 251 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./math.js[39m[22m 313 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.10.2 compiled [1m[32msuccessfully[39m[22m
 
-asset without.js 537 bytes [emitted] [minimized] (name: main) 1 related asset
-chunk without.js (main) 634 bytes [entry] [rendered]
-  > ./example.js main
-  dependent modules 564 bytes [dependent] 2 modules
-  ./example.js 70 bytes [built] [code generated]
-    [used exports unknown]
-    entry ./example.js main
-webpack 5.0.0 compiled successfully
+asset [1m[32mwithout.js[39m[22m 537 bytes [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: main) 1 related asset
+[1m./example.js[39m[22m 70 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./increment.js[39m[22m 251 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./math.js[39m[22m 313 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.10.2 compiled [1m[32msuccessfully[39m[22m
 ```
